@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "date": "2026-03-06",
+    "filtered_mean": 129.8429,
+    "sample_size": 1024,
+    "filtered_size": 503,
+    "sources": 3,
+    "btc_hash": "0000000000000000...",
+    "sigma": 0.0,
+    "anomaly": false,
+    "word": "",
+    "lotto": [
+      4,
+      8,
+      9,
+      11,
+      15,
+      16,
+      23
+    ]
+  }
+]
