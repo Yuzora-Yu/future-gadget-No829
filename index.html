@@ -130,6 +130,24 @@ tr.hit-row td { color: var(--bright); }
 /* Footer */
 footer { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px; font-size: 9px; color: var(--dim); letter-spacing: 0.1em; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
 
+/* Solar wind panel */
+.solar-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 14px 18px; margin-bottom: 24px;
+}
+.solar-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--border); margin-top: 10px;
+}
+.solar-cell { background: var(--bg); padding: 10px 12px; }
+.solar-cell-label { font-size: 8px; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 4px; }
+.solar-cell-val { font-size: 13px; color: var(--text); }
+.solar-cell-val.bz-neg { color: var(--hit); }
+.solar-cell-val.bz-pos { color: var(--ok); }
+.solar-score-row { margin-top: 8px; font-size: 9px; color: var(--dim); letter-spacing: 0.15em; }
+.solar-score-val { color: var(--signal); }
+.solar-score-val.alarmed { color: var(--hit); }
+
 /* Install banner */
 #installBanner {
   display: none; background: var(--surface); border: 1px solid var(--accent);
@@ -182,10 +200,33 @@ footer { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px
     <div class="stat"><div class="stat-label">LAST σ</div><div class="stat-val" id="sLastSigma">—</div></div>
   </div>
 
+  <div class="solar-panel">
+    <div class="section-label" style="margin-bottom:0">DSCOVR L1 · SOLAR WIND · LATEST</div>
+    <div class="solar-grid">
+      <div class="solar-cell">
+        <div class="solar-cell-label">Bz (nT)</div>
+        <div class="solar-cell-val" id="sBz">—</div>
+      </div>
+      <div class="solar-cell">
+        <div class="solar-cell-label">DENSITY (cm⁻³)</div>
+        <div class="solar-cell-val" id="sDensity">—</div>
+      </div>
+      <div class="solar-cell">
+        <div class="solar-cell-label">SPEED (km/s)</div>
+        <div class="solar-cell-val" id="sSpeed">—</div>
+      </div>
+      <div class="solar-cell">
+        <div class="solar-cell-label">SOLAR σ</div>
+        <div class="solar-cell-val" id="sSolarScore">—</div>
+      </div>
+    </div>
+    <div class="solar-score-row">source: NOAA SWPC DSCOVR · L1 lagrange point · 1.5M km</div>
+  </div>
+
   <div class="section-label">SIGNAL LOG</div>
   <table>
     <thead><tr>
-      <th>DATE</th><th>σ</th><th>WORD</th><th>LOTTO / NUM7</th><th>SRC</th>
+      <th>DATE</th><th>RNG σ</th><th>SOLAR σ</th><th>WORD</th><th>LOTTO / NUM7</th><th>SRC</th>
     </tr></thead>
     <tbody id="tbody"></tbody>
   </table>
@@ -331,8 +372,24 @@ function render() {
   document.getElementById('sEntries').textContent = allData.length;
   document.getElementById('sAnomalies').textContent = anomalies;
   const sigmaEl = document.getElementById('sLastSigma');
-  sigmaEl.textContent = last.sigma?.toFixed(3) ?? '—';
-  if (last.sigma >= 2) sigmaEl.classList.add('hit');
+  sigmaEl.textContent = (last.sigma_combined ?? last.sigma)?.toFixed(3) ?? '—';
+  if ((last.sigma_combined ?? last.sigma) >= 2) sigmaEl.classList.add('hit');
+
+  // Solar wind latest
+  const bzEl = document.getElementById('sBz');
+  if (last.solar_bz != null) {
+    bzEl.textContent = last.solar_bz.toFixed(2);
+    bzEl.className = 'solar-cell-val ' + (last.solar_bz < 0 ? 'bz-neg' : 'bz-pos');
+  }
+  const dEl = document.getElementById('sDensity');
+  if (last.solar_density != null) dEl.textContent = last.solar_density.toFixed(2);
+  const spEl = document.getElementById('sSpeed');
+  if (last.solar_speed != null) spEl.textContent = last.solar_speed.toFixed(0);
+  const ssEl = document.getElementById('sSolarScore');
+  if (last.solar_score != null) {
+    ssEl.textContent = last.solar_score.toFixed(3);
+    ssEl.className = 'solar-cell-val' + (last.solar_score >= 2 ? ' alarmed' : '');
+  }
 
   document.getElementById('footerL').textContent = `LAST SYNC: ${last.date} · ENTRIES: ${allData.length}`;
   document.getElementById('footerR').textContent = `BASELINE WINDOW: ${Math.min(allData.length, 14)}d`;
@@ -394,11 +451,14 @@ function buildTable() {
   const rows = [...allData].reverse().slice(0, 60);
   document.getElementById('tbody').innerHTML = rows.map(d => {
     const sc = d.sigma >= 2 ? 's-hi' : d.sigma >= 1.5 ? 's-md' : 's-lo';
+    const ssc = (d.solar_score ?? 0) >= 2 ? 's-hi' : (d.solar_score ?? 0) >= 1.5 ? 's-md' : 's-lo';
     const lotto = (d.lotto || []).map(n => `<span class="ln">${String(n).padStart(2,'0')}</span>`).join('');
     const dots = Array(d.sources || 0).fill('<span class="src-dot"></span>').join('');
+    const bzHint = d.solar_bz != null ? ` Bz=${d.solar_bz.toFixed(1)}` : '';
     return `<tr class="${d.anomaly ? 'hit-row' : ''}">
       <td>${d.date}</td>
-      <td><span class="sigma ${sc}">${d.sigma.toFixed(3)}</span></td>
+      <td><span class="sigma ${sc}">${d.sigma?.toFixed(3) ?? '—'}</span></td>
+      <td><span class="sigma ${ssc}" title="solar wind${bzHint}">${d.solar_score?.toFixed(3) ?? '—'}</span></td>
       <td>${d.anomaly ? `<span class="word">${d.word || '—'}</span>` : '<span class="s-lo">—</span>'}</td>
       <td><div class="lotto-wrap">${lotto || '<span class="s-lo">—</span>'}</div></td>
       <td>${dots}</td>
