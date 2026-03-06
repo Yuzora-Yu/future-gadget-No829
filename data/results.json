@@ -1,2 +1,28 @@
 [
+  {
+    "date": "2026-03-06",
+    "filtered_mean": 131.6061,
+    "sample_size": 1024,
+    "filtered_size": 528,
+    "sigma": 0.0,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 0.0,
+    "anomaly": false,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "",
+    "lotto": [
+      8,
+      9,
+      11,
+      17,
+      18,
+      20,
+      37
+    ]
+  }
 ]
