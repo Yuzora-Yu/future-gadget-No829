@@ -459,7 +459,7 @@ function buildTable() {
       <td>${d.date}</td>
       <td><span class="sigma ${sc}">${d.sigma?.toFixed(3) ?? '—'}</span></td>
       <td><span class="sigma ${ssc}" title="solar wind${bzHint}">${d.solar_score?.toFixed(3) ?? '—'}</span></td>
-      <td>${d.anomaly ? `<span class="word">${d.word || '—'}</span>` : '<span class="s-lo">—</span>'}</td>
+      <td>${d.anomaly ? `<span class="word" title="${d.word || ''}">${d.word_ja || d.word || '—'}</span>` : '<span class="s-lo">—</span>'}</td>
       <td><div class="lotto-wrap">${lotto || '<span class="s-lo">—</span>'}</div></td>
       <td>${dots}</td>
     </tr>`;

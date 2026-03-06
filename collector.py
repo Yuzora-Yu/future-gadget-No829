@@ -46,6 +46,58 @@ _WORDS = [
 WORD_POOL = _WORDS[:]
 _rng.shuffle(WORD_POOL)
 
+# Japanese translation map
+WORD_JA = {
+    "WAIT":   "待機せよ",
+    "MOVE":   "移動せよ",
+    "NORTH":  "北",
+    "SOUTH":  "南",
+    "EAST":   "東",
+    "WEST":   "西",
+    "STILL":  "静止",
+    "READY":  "準備完了",
+    "SOON":   "間もなく",
+    "DEEP":   "深部",
+    "HIGH":   "上昇",
+    "DARK":   "暗転",
+    "LIGHT":  "光",
+    "OPEN":   "開放",
+    "CLOSE":  "閉鎖",
+    "SAFE":   "安全",
+    "ALERT":  "警戒",
+    "CALM":   "静穏",
+    "HOLD":   "保留",
+    "TURN":   "転換点",
+    "RISE":   "上昇せよ",
+    "FALL":   "下降",
+    "CARRY":  "継続せよ",
+    "LEAVE":  "離脱せよ",
+    "RETURN": "帰還せよ",
+    "WATCH":  "監視せよ",
+    "LISTEN": "受信中",
+    "TRUST":  "信頼せよ",
+    "DOUBT":  "疑念",
+    "SEEK":   "探索せよ",
+    "FIND":   "発見",
+    "LOSE":   "喪失",
+    "BEGIN":  "開始",
+    "END":    "終端",
+    "CYCLE":  "周期",
+    "GATE":   "ゲート",
+    "BRIDGE": "架橋",
+    "ROOT":   "原点",
+    "WAVE":   "波動",
+    "ECHO":   "残響",
+    "PAUSE":  "一時停止",
+    "SHIFT":  "シフト",
+    "MARK":   "記録せよ",
+    "FOLD":   "収束",
+    "CROSS":  "交差点",
+    "BIND":   "束縛",
+    "TRACE":  "追跡せよ",
+    "SPLIT":  "分岐",
+}
+
 
 # ── Data fetchers ────────────────────────────────────────────────────────────
 def fetch_random_org(count=512):
@@ -86,31 +138,33 @@ def fetch_solar_wind():
 
     # Magnetic field (Bz component)
     try:
-        url = "https://services.swpc.noaa.gov/products/solar-wind/mag-1-hour.json"
+        url = "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"
         with urllib.request.urlopen(url, timeout=15) as r:
             rows = json.loads(r.read().decode())
             # rows: [time_tag, bx, by, bz, lon, lat, bt]
+            # Take last 60 entries (approx 1 hour of 1-min data)
             bz_vals = []
-            for row in rows[1:]:   # skip header
+            for row in rows[1:][-60:]:
                 try:
                     bz_vals.append(float(row[3]))
                 except (ValueError, IndexError):
                     pass
             if bz_vals:
                 result["bz"] = round(sum(bz_vals) / len(bz_vals), 4)
-                result["bz_samples"] = bz_vals[-10:]  # last 10 for variance
+                result["bz_samples"] = bz_vals[-10:]
                 print(f"[Solar] Bz mean={result['bz']:.3f} nT  ({len(bz_vals)} samples)")
     except Exception as e:
         print(f"[WARN] Solar wind mag: {e}")
 
     # Plasma (density / speed / temperature)
     try:
-        url = "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-hour.json"
+        url = "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"
         with urllib.request.urlopen(url, timeout=15) as r:
             rows = json.loads(r.read().decode())
             # rows: [time_tag, density, speed, temperature]
+            # Take last 60 entries
             densities, speeds, temps = [], [], []
-            for row in rows[1:]:
+            for row in rows[1:][-60:]:
                 try:
                     densities.append(float(row[1]))
                     speeds.append(float(row[2]))
@@ -232,24 +286,27 @@ def weighted_lotto(filtered_mean: float, solar_score: float,
     return sorted(nums)
 
 
-def score_to_word(sigma: float, date_str: str) -> str:
+def score_to_word(sigma: float, date_str: str) -> tuple:
+    """Returns (word_en, word_ja)"""
     h = hashlib.sha256(f"{date_str}:{sigma:.1f}:{_KEY}".encode()).hexdigest()
-    return WORD_POOL[int(h[:8], 16) % len(WORD_POOL)]
+    word_en = WORD_POOL[int(h[:8], 16) % len(WORD_POOL)]
+    word_ja = WORD_JA.get(word_en, word_en)
+    return word_en, word_ja
 
 
 # ── Notification ─────────────────────────────────────────────────────────────
-def notify_ntfy(date_str, sigma, solar_score, word, lotto):
+def notify_ntfy(date_str, sigma, solar_score, word_en, word_ja, lotto):
     nums = " ".join(f"{n:02d}" for n in lotto)
-    msg  = (f"[{date_str}]\n"
-            f"σ={sigma:.3f}  solar={solar_score:.3f}\n"
-            f"WORD={word}\n"
+    msg  = (f"📡 [{date_str}]\n"
+            f"σ={sigma:.3f}  太陽風={solar_score:.3f}\n"
+            f"シグナル: {word_ja}（{word_en}）\n"
             f"LOTTO: {nums}")
     try:
         req = urllib.request.Request(
             f"https://ntfy.sh/{_NTFY_TOPIC}",
             data=msg.encode(),
             headers={
-                "Title": "Signal Detected",
+                "Title": f"シグナル検出 — {word_ja}",
                 "Priority": "high",
                 "Tags": "signal_strength_bars",
             },
@@ -311,7 +368,7 @@ def run():
     sigma_combined = round(max(sigma_rng, solar_score), 3)
 
     # ── Outputs ──
-    word  = score_to_word(sigma_combined, today) if is_anomaly else ""
+    word_en, word_ja = score_to_word(sigma_combined, today) if is_anomaly else ("", "")
     lotto = weighted_lotto(filtered_mean, solar_score, btc_hash, today)
 
     source_count = sum([bool(rand_data), bool(anu_data),
@@ -336,7 +393,8 @@ def run():
         "sources":        source_count,
         "btc_hash_prefix": btc_hash[:16] + "..." if btc_hash else "",
         # Signal output
-        "word":           word,
+        "word":           word_en,
+        "word_ja":        word_ja,
         "lotto":          lotto,
     }
 
@@ -345,11 +403,11 @@ def run():
 
     print(f"[RNG]    mean={filtered_mean}  σ={sigma_rng}  anomaly={is_anomaly_rng}")
     print(f"[Solar]  score={solar_score:.3f}  Bz={solar['bz']}  anomaly={is_anomaly_solar}")
-    print(f"[Output] σ_combined={sigma_combined}  anomaly={is_anomaly}  word='{word}'")
+    print(f"[Output] σ_combined={sigma_combined}  anomaly={is_anomaly}  word='{word_en}'/{word_ja}")
     print(f"[Lotto]  {lotto}")
 
     if is_anomaly:
-        notify_ntfy(today, sigma_combined, solar_score, word, lotto)
+        notify_ntfy(today, sigma_combined, solar_score, word_en, word_ja, lotto)
 
 
 if __name__ == "__main__":
