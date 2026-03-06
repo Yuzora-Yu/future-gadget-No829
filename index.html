@@ -2,510 +2,411 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050810">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Receiver">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Receiver</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Courier+Prime:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Courier+Prime:ital@0;1&display=swap');
 
-  :root {
-    --bg: #050810;
-    --surface: #0a0f1e;
-    --border: #1a2540;
-    --dim: #1e2d4a;
-    --text: #7fa8d4;
-    --text-bright: #c8dff5;
-    --accent: #3d8bcd;
-    --signal: #4fc3f7;
-    --anomaly: #ff6b6b;
-    --anomaly-dim: rgba(255,107,107,0.15);
-    --safe: #26a69a;
-    --mono: 'Share Tech Mono', monospace;
-    --serif: 'Courier Prime', monospace;
-  }
+:root {
+  --bg: #050810;
+  --surface: #0a0f1e;
+  --border: #1a2540;
+  --dim: #2a3d5e;
+  --text: #7fa8d4;
+  --bright: #c8dff5;
+  --accent: #3d8bcd;
+  --signal: #4fc3f7;
+  --hit: #ff6b6b;
+  --hit-bg: rgba(255,107,107,0.12);
+  --ok: #26a69a;
+  --mono: 'Share Tech Mono', monospace;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100%;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow-x: hidden;
+}
 
-  /* Scanline overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 100;
-  }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none; z-index: 999;
+}
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 40px 24px;
-  }
+.wrap { max-width: 820px; margin: 0 auto; padding: 32px 18px 48px; }
 
-  /* Header */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-  }
+/* Header */
+header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px;
+  flex-wrap: wrap; gap: 10px;
+}
+h1 { font-size: 10px; letter-spacing: 0.35em; color: var(--accent); margin-bottom: 5px; }
+.sub { font-size: 9px; color: var(--dim); letter-spacing: 0.15em; }
+#badge {
+  font-size: 9px; letter-spacing: 0.15em;
+  border: 1px solid var(--border); padding: 3px 9px; color: var(--dim);
+  align-self: flex-start;
+}
+#badge.active { border-color: var(--ok); color: var(--ok); }
 
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+/* Notify strip */
+#notifyStrip {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 14px 18px; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+}
+.notify-label { font-size: 10px; letter-spacing: 0.2em; color: var(--dim); }
+.notify-detail { font-size: 9px; color: var(--dim); margin-top: 3px; }
+#notifyBtn {
+  background: none; border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  padding: 7px 14px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+#notifyBtn:hover { background: var(--accent); color: var(--bg); }
+#notifyBtn:disabled { border-color: var(--ok); color: var(--ok); cursor: default; }
+#notifyBtn:disabled:hover { background: none; color: var(--ok); }
 
-  h1 {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
+/* Chart */
+.section-label { font-size: 9px; letter-spacing: 0.25em; color: var(--dim); margin-bottom: 10px; }
+#chart { width: 100%; height: 110px; background: var(--surface); border: 1px solid var(--border); display: block; margin-bottom: 28px; }
 
-  .subtitle {
-    font-size: 10px;
-    color: var(--dim);
-    letter-spacing: 0.15em;
-  }
+/* Stats row */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 28px; background: var(--border); }
+.stat { background: var(--surface); padding: 12px 14px; }
+.stat-label { font-size: 8px; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 5px; }
+.stat-val { font-size: 16px; color: var(--bright); }
+.stat-val.hit { color: var(--hit); }
+.stat-val.ok { color: var(--ok); }
 
-  .status-badge {
-    font-size: 10px;
-    padding: 4px 10px;
-    border: 1px solid var(--border);
-    color: var(--dim);
-    letter-spacing: 0.1em;
-  }
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 11px; }
+thead tr { border-bottom: 1px solid var(--border); }
+th { padding: 7px 8px; font-size: 8px; letter-spacing: 0.2em; color: var(--dim); font-weight: normal; text-align: left; }
+td { padding: 8px 8px; border-bottom: 1px solid rgba(26,37,64,0.4); vertical-align: middle; }
+tr.hit-row { background: var(--hit-bg); animation: pulse 3s ease-in-out infinite; }
+tr.hit-row td { color: var(--bright); }
 
-  /* Key input */
-  .key-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 20px 24px;
-    margin-bottom: 28px;
-  }
+@keyframes pulse {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: inset 0 0 20px rgba(255,107,107,0.1); }
+}
 
-  .key-label {
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--dim);
-    margin-bottom: 10px;
-    display: block;
-  }
+.sigma { font-size: 13px; }
+.s-hi { color: var(--hit); font-weight: bold; }
+.s-md { color: var(--signal); }
+.s-lo { color: var(--dim); }
+.word { font-size: 12px; letter-spacing: 0.15em; color: var(--hit); }
+.lotto-wrap { display: flex; gap: 3px; flex-wrap: wrap; }
+.ln {
+  display: inline-block; width: 22px; height: 22px; line-height: 22px;
+  text-align: center; border: 1px solid var(--dim); font-size: 10px; color: var(--text);
+}
+.src-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ok); margin-right: 2px; vertical-align: middle;
+}
 
-  .key-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
+/* Loading */
+#loading { text-align: center; padding: 60px; font-size: 10px; letter-spacing: 0.3em; color: var(--dim); animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:.3} 50%{opacity:1} }
 
-  #keyInput {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text-bright);
-    font-family: var(--mono);
-    font-size: 14px;
-    padding: 8px 12px;
-    letter-spacing: 0.2em;
-    width: 140px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+/* Footer */
+footer { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px; font-size: 9px; color: var(--dim); letter-spacing: 0.1em; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
 
-  #keyInput:focus { border-color: var(--accent); }
-  #keyInput.valid { border-color: var(--safe); color: var(--safe); }
-  #keyInput.invalid { border-color: var(--anomaly); }
-
-  .key-btn {
-    background: none;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    padding: 8px 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .key-btn:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  .key-status {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    margin-left: 8px;
-  }
-
-  /* Chart */
-  .chart-section {
-    margin-bottom: 28px;
-  }
-
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--dim);
-    margin-bottom: 12px;
-    padding-left: 2px;
-  }
-
-  #sigmaChart {
-    width: 100%;
-    height: 120px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    display: block;
-  }
-
-  /* Table */
-  .table-section { margin-bottom: 28px; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-  }
-
-  thead tr {
-    border-bottom: 1px solid var(--border);
-  }
-
-  th {
-    text-align: left;
-    padding: 8px 10px;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--dim);
-    font-weight: normal;
-  }
-
-  td {
-    padding: 9px 10px;
-    border-bottom: 1px solid rgba(26,37,64,0.5);
-    vertical-align: middle;
-  }
-
-  tr.anomaly-row {
-    background: var(--anomaly-dim);
-  }
-
-  tr.anomaly-row td { color: var(--text-bright); }
-
-  .sigma-val { font-size: 12px; }
-  .sigma-high { color: var(--anomaly); font-weight: bold; }
-  .sigma-mid { color: var(--signal); }
-  .sigma-low { color: var(--dim); }
-
-  .word-cell {
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    color: var(--anomaly);
-  }
-
-  .word-locked {
-    color: var(--dim);
-    font-size: 10px;
-    font-style: italic;
-  }
-
-  .lotto-nums {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-
-  .lotto-num {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    line-height: 22px;
-    text-align: center;
-    border: 1px solid var(--dim);
-    font-size: 10px;
-    color: var(--text);
-  }
-
-  .lotto-locked {
-    color: var(--dim);
-    font-size: 10px;
-  }
-
-  .sources-dot {
-    display: inline-block;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    margin-right: 2px;
-    background: var(--safe);
-    vertical-align: middle;
-  }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
-    font-size: 10px;
-    color: var(--dim);
-    letter-spacing: 0.1em;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  /* Loading */
-  #loading {
-    text-align: center;
-    padding: 60px;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--dim);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-
-  /* Glow on anomaly rows */
-  @keyframes glow {
-    0%, 100% { box-shadow: none; }
-    50% { box-shadow: 0 0 12px rgba(255,107,107,0.2); }
-  }
-
-  tr.anomaly-row { animation: glow 3s ease-in-out infinite; }
+/* Install banner */
+#installBanner {
+  display: none; background: var(--surface); border: 1px solid var(--accent);
+  padding: 12px 18px; margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+}
+#installBanner.hidden { display: none; }
+.install-text { font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
+.install-btn {
+  background: none; border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  padding: 6px 12px; cursor: pointer; transition: all 0.2s;
+}
+.install-btn:hover { background: var(--accent); color: var(--bg); }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
 
-  <header>
-    <div class="header-top">
-      <div>
-        <h1>Temporal Signal Receiver</h1>
-        <div class="subtitle">passive monitoring · causal branch unknown</div>
-      </div>
-      <div class="status-badge" id="statusBadge">INITIALIZING</div>
-    </div>
-  </header>
+<header>
+  <div>
+    <h1>TEMPORAL SIGNAL RECEIVER</h1>
+    <div class="sub">passive monitoring · causal branch unknown</div>
+  </div>
+  <div id="badge">INITIALIZING</div>
+</header>
 
-  <div class="key-section">
-    <span class="key-label">DECRYPTION KEY</span>
-    <div class="key-row">
-      <input type="text" id="keyInput" placeholder="______" maxlength="12" autocomplete="off" />
-      <button class="key-btn" onclick="applyKey()">APPLY</button>
-      <span class="key-status" id="keyStatus"></span>
-    </div>
+<div id="installBanner" class="hidden">
+  <span class="install-text">ホーム画面にインストール可能</span>
+  <button class="install-btn" id="installBtn">INSTALL</button>
+</div>
+
+<div id="notifyStrip">
+  <div>
+    <div class="notify-label">PUSH NOTIFICATION</div>
+    <div class="notify-detail" id="notifyDetail">異常検出時にプッシュ通知を受信する</div>
+  </div>
+  <button id="notifyBtn" onclick="setupNotify()">ENABLE</button>
+</div>
+
+<div id="loading">LOADING ···</div>
+<div id="main" style="display:none">
+
+  <div class="section-label">SIGMA DEVIATION · 30 DAYS</div>
+  <canvas id="chart"></canvas>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">ENTRIES</div><div class="stat-val" id="sEntries">—</div></div>
+    <div class="stat"><div class="stat-label">ANOMALIES</div><div class="stat-val hit" id="sAnomalies">—</div></div>
+    <div class="stat"><div class="stat-label">LAST σ</div><div class="stat-val" id="sLastSigma">—</div></div>
   </div>
 
-  <div id="loading">LOADING SIGNAL DATA ···</div>
-  <div id="mainContent" style="display:none">
+  <div class="section-label">SIGNAL LOG</div>
+  <table>
+    <thead><tr>
+      <th>DATE</th><th>σ</th><th>WORD</th><th>LOTTO / NUM7</th><th>SRC</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
 
-    <div class="chart-section">
-      <div class="section-label">SIGMA DEVIATION · 30 DAYS</div>
-      <canvas id="sigmaChart"></canvas>
-    </div>
-
-    <div class="table-section">
-      <div class="section-label">SIGNAL LOG</div>
-      <table>
-        <thead>
-          <tr>
-            <th>DATE</th>
-            <th>σ DEVIATION</th>
-            <th>WORD SIGNAL</th>
-            <th>LOTTO / NUM7</th>
-            <th>SRC</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-
-  </div>
-
-  <footer>
-    <span id="footerLeft">—</span>
-    <span>KEY: <span id="footerKey" style="color:var(--dim)">NOT SET</span></span>
-  </footer>
+<footer>
+  <span id="footerL">—</span>
+  <span id="footerR">—</span>
+</footer>
 
 </div>
 
 <script>
-const CORRECT_KEY = "176248";
-let keyUnlocked = false;
-let allData = [];
+// ── ntfy setup ───────────────────────────────────────────────────────────────
+const NTFY_TOPIC = 'tsr-3ede456f7bc9b1a5';
+const NTFY_SW_URL = `https://ntfy.sh/${NTFY_TOPIC}/json`;
 
+let allData = [];
+let deferredInstall = null;
+
+// ── PWA install prompt ───────────────────────────────────────────────────────
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstall = e;
+  document.getElementById('installBanner').classList.remove('hidden');
+});
+
+document.getElementById('installBtn')?.addEventListener('click', async () => {
+  if (!deferredInstall) return;
+  deferredInstall.prompt();
+  const { outcome } = await deferredInstall.userChoice;
+  if (outcome === 'accepted') {
+    document.getElementById('installBanner').classList.add('hidden');
+  }
+  deferredInstall = null;
+});
+
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBanner').classList.add('hidden');
+});
+
+// ── Service Worker ────────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(console.error);
+}
+
+// ── ntfy push notification ────────────────────────────────────────────────────
+async function setupNotify() {
+  const btn = document.getElementById('notifyBtn');
+  const detail = document.getElementById('notifyDetail');
+
+  // Check if already subscribed via ntfy Web Push
+  if (!('Notification' in window)) {
+    detail.textContent = 'このブラウザは通知をサポートしていません';
+    return;
+  }
+
+  const perm = await Notification.requestPermission();
+  if (perm !== 'granted') {
+    detail.textContent = '通知が拒否されました — ブラウザ設定から許可してください';
+    return;
+  }
+
+  // Subscribe to ntfy.sh Web Push for this topic
+  try {
+    const reg = await navigator.serviceWorker.ready;
+
+    // ntfy.sh supports Web Push — subscribe to topic
+    const subRes = await fetch(`https://ntfy.sh/${NTFY_TOPIC}/webpush?since=all`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ service_worker: '/sw.js' })
+    });
+
+    btn.disabled = true;
+    btn.textContent = '✓ ACTIVE';
+    detail.textContent = `異常検出時に通知が届きます (topic: ${NTFY_TOPIC})`;
+    localStorage.setItem('ntfy_subscribed', '1');
+  } catch(e) {
+    // Fallback: just enable local notifications with polling
+    detail.textContent = '通知を有効化しました（次の同期時に確認）';
+    btn.disabled = true;
+    btn.textContent = '✓ ACTIVE';
+    localStorage.setItem('ntfy_subscribed', '1');
+    schedulePolling();
+  }
+}
+
+// Polling fallback — checks results.json every 4h for new anomalies
+function schedulePolling() {
+  setInterval(async () => {
+    try {
+      const res = await fetch('data/results.json?t=' + Date.now());
+      const data = await res.json();
+      const last = data[data.length - 1];
+      const seen = localStorage.getItem('last_seen_date');
+      if (last && last.anomaly && last.date !== seen) {
+        new Notification('Signal Detected', {
+          body: `[${last.date}] σ=${last.sigma.toFixed(3)}  ${last.word}`,
+          icon: '/icon-192.png'
+        });
+        localStorage.setItem('last_seen_date', last.date);
+      }
+    } catch(e) {}
+  }, 4 * 60 * 60 * 1000);
+}
+
+// Restore notify state on load
+window.addEventListener('load', () => {
+  if (localStorage.getItem('ntfy_subscribed')) {
+    const btn = document.getElementById('notifyBtn');
+    const detail = document.getElementById('notifyDetail');
+    btn.disabled = true;
+    btn.textContent = '✓ ACTIVE';
+    detail.textContent = `異常検出時に通知が届きます (topic: ${NTFY_TOPIC})`;
+    schedulePolling();
+  }
+});
+
+// ── Data load & render ────────────────────────────────────────────────────────
 async function loadData() {
   try {
     const res = await fetch('data/results.json?t=' + Date.now());
     allData = await res.json();
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('main').style.display = 'block';
     render();
-    document.getElementById('statusBadge').textContent = 'ACTIVE';
+    const badge = document.getElementById('badge');
+    badge.textContent = 'ACTIVE';
+    badge.classList.add('active');
   } catch(e) {
-    document.getElementById('loading').textContent = 'ERROR: COULD NOT LOAD DATA';
+    document.getElementById('loading').textContent = 'ERROR: DATA NOT FOUND';
   }
 }
-
-function applyKey() {
-  const val = document.getElementById('keyInput').value.trim();
-  const inp = document.getElementById('keyInput');
-  const status = document.getElementById('keyStatus');
-  if (val === CORRECT_KEY) {
-    keyUnlocked = true;
-    inp.classList.add('valid');
-    inp.classList.remove('invalid');
-    status.style.color = 'var(--safe)';
-    status.textContent = '✓ AUTHENTICATED';
-    document.getElementById('footerKey').textContent = val;
-    document.getElementById('footerKey').style.color = 'var(--safe)';
-    render();
-  } else {
-    keyUnlocked = false;
-    inp.classList.add('invalid');
-    inp.classList.remove('valid');
-    status.style.color = 'var(--anomaly)';
-    status.textContent = '✗ REJECTED';
-    render();
-  }
-}
-
-document.getElementById('keyInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') applyKey();
-});
 
 function render() {
   if (!allData.length) return;
-  renderChart();
-  renderTable();
+  drawChart();
+  buildTable();
+
+  const anomalies = allData.filter(d => d.anomaly).length;
   const last = allData[allData.length - 1];
-  document.getElementById('footerLeft').textContent =
-    `LAST SYNC: ${last.date} · ENTRIES: ${allData.length}`;
+  document.getElementById('sEntries').textContent = allData.length;
+  document.getElementById('sAnomalies').textContent = anomalies;
+  const sigmaEl = document.getElementById('sLastSigma');
+  sigmaEl.textContent = last.sigma?.toFixed(3) ?? '—';
+  if (last.sigma >= 2) sigmaEl.classList.add('hit');
+
+  document.getElementById('footerL').textContent = `LAST SYNC: ${last.date} · ENTRIES: ${allData.length}`;
+  document.getElementById('footerR').textContent = `BASELINE WINDOW: ${Math.min(allData.length, 14)}d`;
 }
 
-function renderChart() {
-  const canvas = document.getElementById('sigmaChart');
+function drawChart() {
+  const canvas = document.getElementById('chart');
   const ctx = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
 
-  const W = canvas.offsetWidth;
-  const H = canvas.offsetHeight;
-  const recent = allData.slice(-30);
-  const sigmas = recent.map(d => d.sigma || 0);
-  const maxSigma = Math.max(...sigmas, 3) * 1.2;
+  const pts = allData.slice(-30);
+  const sigmas = pts.map(d => d.sigma || 0);
+  const maxS = Math.max(...sigmas, 3) * 1.2;
 
   ctx.clearRect(0, 0, W, H);
 
-  // Grid lines
-  ctx.strokeStyle = 'rgba(26,37,64,0.8)';
-  ctx.lineWidth = 1;
-  [1, 2, 3].forEach(level => {
-    const y = H - (level / maxSigma) * (H - 20) - 10;
-    ctx.beginPath();
-    ctx.setLineDash([4, 4]);
-    ctx.moveTo(0, y); ctx.lineTo(W, y);
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(61,139,205,0.4)';
-    ctx.font = '9px Share Tech Mono';
-    ctx.fillText(`${level}σ`, 4, y - 3);
+  // Grid
+  [1, 2, 3].forEach(lv => {
+    const y = H - (lv / maxS) * (H - 20) - 10;
+    ctx.strokeStyle = 'rgba(26,37,64,0.9)'; ctx.lineWidth = 1;
+    ctx.setLineDash([3, 5]);
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(61,139,205,0.35)'; ctx.font = `9px Share Tech Mono`;
+    ctx.fillText(`${lv}σ`, 4, y - 3);
   });
-  ctx.setLineDash([]);
 
-  if (recent.length < 2) return;
-  const stepX = W / (recent.length - 1);
+  if (pts.length < 2) return;
+  const sx = W / (pts.length - 1);
+  const py = (d) => H - ((d.sigma || 0) / maxS) * (H - 20) - 10;
 
-  // Fill area
+  // Gradient fill
   const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, 'rgba(63,140,180,0.25)');
-  grad.addColorStop(1, 'rgba(63,140,180,0)');
+  grad.addColorStop(0, 'rgba(79,195,247,0.2)');
+  grad.addColorStop(1, 'rgba(79,195,247,0)');
   ctx.beginPath();
-  recent.forEach((d, i) => {
-    const x = i * stepX;
-    const y = H - (d.sigma / maxSigma) * (H - 20) - 10;
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
-  ctx.lineTo((recent.length - 1) * stepX, H);
-  ctx.lineTo(0, H);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
+  pts.forEach((d, i) => { const x = i * sx, y = py(d); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  ctx.lineTo((pts.length - 1) * sx, H); ctx.lineTo(0, H); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
 
   // Line
-  ctx.beginPath();
-  ctx.strokeStyle = 'var(--signal)';
-  ctx.lineWidth = 1.5;
-  recent.forEach((d, i) => {
-    const x = i * stepX;
-    const y = H - (d.sigma / maxSigma) * (H - 20) - 10;
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
+  ctx.beginPath(); ctx.strokeStyle = '#4fc3f7'; ctx.lineWidth = 1.5;
+  pts.forEach((d, i) => { const x = i * sx, y = py(d); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
   ctx.stroke();
 
   // Anomaly dots
-  recent.forEach((d, i) => {
+  pts.forEach((d, i) => {
     if (!d.anomaly) return;
-    const x = i * stepX;
-    const y = H - (d.sigma / maxSigma) * (H - 20) - 10;
-    ctx.beginPath();
-    ctx.arc(x, y, 4, 0, Math.PI * 2);
-    ctx.fillStyle = 'var(--anomaly)';
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(i * sx, py(d), 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff6b6b'; ctx.fill();
   });
 }
 
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  const recent = [...allData].reverse().slice(0, 60);
-
-  tbody.innerHTML = recent.map(d => {
-    const isAnomaly = d.anomaly;
-    const sigmaClass = d.sigma >= 2 ? 'sigma-high' : d.sigma >= 1.5 ? 'sigma-mid' : 'sigma-low';
-
-    const wordCell = isAnomaly
-      ? (keyUnlocked
-          ? `<span class="word-cell">${d.word || '—'}</span>`
-          : `<span class="word-locked">[KEY REQUIRED]</span>`)
-      : `<span class="sigma-low">—</span>`;
-
-    const lottoCell = keyUnlocked && d.lotto && d.lotto.length
-      ? `<div class="lotto-nums">${d.lotto.map(n => `<span class="lotto-num">${String(n).padStart(2,'0')}</span>`).join('')}</div>`
-      : `<span class="lotto-locked">[KEY REQUIRED]</span>`;
-
-    const srcDots = Array(d.sources || 0).fill('<span class="sources-dot"></span>').join('');
-
-    return `<tr class="${isAnomaly ? 'anomaly-row' : ''}">
+function buildTable() {
+  const rows = [...allData].reverse().slice(0, 60);
+  document.getElementById('tbody').innerHTML = rows.map(d => {
+    const sc = d.sigma >= 2 ? 's-hi' : d.sigma >= 1.5 ? 's-md' : 's-lo';
+    const lotto = (d.lotto || []).map(n => `<span class="ln">${String(n).padStart(2,'0')}</span>`).join('');
+    const dots = Array(d.sources || 0).fill('<span class="src-dot"></span>').join('');
+    return `<tr class="${d.anomaly ? 'hit-row' : ''}">
       <td>${d.date}</td>
-      <td><span class="sigma-val ${sigmaClass}">${d.sigma.toFixed(3)}</span></td>
-      <td>${wordCell}</td>
-      <td>${lottoCell}</td>
-      <td>${srcDots}</td>
+      <td><span class="sigma ${sc}">${d.sigma.toFixed(3)}</span></td>
+      <td>${d.anomaly ? `<span class="word">${d.word || '—'}</span>` : '<span class="s-lo">—</span>'}</td>
+      <td><div class="lotto-wrap">${lotto || '<span class="s-lo">—</span>'}</div></td>
+      <td>${dots}</td>
     </tr>`;
   }).join('');
 }
 
-window.addEventListener('resize', () => { if (allData.length) renderChart(); });
+window.addEventListener('resize', () => { if (allData.length) drawChart(); });
 loadData();
 </script>
 </body>
