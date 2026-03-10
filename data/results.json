@@ -105,5 +105,32 @@
       30,
       35
     ]
+  },
+  {
+    "date": "2026-03-10",
+    "filtered_mean": 133.6475,
+    "sample_size": 1024,
+    "filtered_size": 522,
+    "sigma": 2.62,
+    "solar_bz": -1.5343,
+    "solar_density": 0.1568,
+    "solar_speed": 434.01,
+    "solar_temp": 65060.9,
+    "solar_score": 3.5355,
+    "sigma_combined": 3.535,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "TRACE",
+    "word_ja": "追跡せよ",
+    "lotto": [
+      7,
+      8,
+      13,
+      22,
+      30,
+      31,
+      32
+    ]
   }
 ]
