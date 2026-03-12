@@ -159,5 +159,32 @@
       28,
       33
     ]
+  },
+  {
+    "date": "2026-03-12",
+    "filtered_mean": 122.5154,
+    "sample_size": 1024,
+    "filtered_size": 518,
+    "sigma": 3.571,
+    "solar_bz": -0.5575,
+    "solar_density": 0.2173,
+    "solar_speed": 420.61,
+    "solar_temp": 108123.4,
+    "solar_score": 1.088,
+    "sigma_combined": 3.571,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "FALL",
+    "word_ja": "下降",
+    "lotto": [
+      6,
+      12,
+      16,
+      17,
+      28,
+      36,
+      37
+    ]
   }
 ]
