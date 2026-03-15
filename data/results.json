@@ -240,5 +240,32 @@
       30,
       33
     ]
+  },
+  {
+    "date": "2026-03-15",
+    "filtered_mean": 128.5149,
+    "sample_size": 1024,
+    "filtered_size": 505,
+    "sigma": 0.44,
+    "solar_bz": 2.5965,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 2.252,
+    "sigma_combined": 2.252,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "BIND",
+    "word_ja": "束縛",
+    "lotto": [
+      1,
+      3,
+      5,
+      10,
+      11,
+      15,
+      17
+    ]
   }
 ]
