@@ -267,5 +267,32 @@
       15,
       17
     ]
+  },
+  {
+    "date": "2026-03-16",
+    "filtered_mean": 121.9379,
+    "sample_size": 1024,
+    "filtered_size": 499,
+    "sigma": 2.498,
+    "solar_bz": 1.186,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 1.13,
+    "sigma_combined": 2.498,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "END",
+    "word_ja": "終端",
+    "lotto": [
+      1,
+      6,
+      8,
+      11,
+      26,
+      33,
+      36
+    ]
   }
 ]
