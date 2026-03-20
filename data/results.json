@@ -375,5 +375,32 @@
       16,
       26
     ]
+  },
+  {
+    "date": "2026-03-20",
+    "filtered_mean": 121.4549,
+    "sample_size": 1024,
+    "filtered_size": 532,
+    "sigma": 1.438,
+    "solar_bz": 3.4575,
+    "solar_density": 6.3085,
+    "solar_speed": 372.53,
+    "solar_temp": 35758.1,
+    "solar_score": 2.954,
+    "sigma_combined": 2.954,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "SAFE",
+    "word_ja": "安全",
+    "lotto": [
+      2,
+      6,
+      8,
+      16,
+      19,
+      20,
+      35
+    ]
   }
 ]
