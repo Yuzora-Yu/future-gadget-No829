@@ -402,5 +402,32 @@
       20,
       35
     ]
+  },
+  {
+    "date": "2026-03-21",
+    "filtered_mean": 132.9055,
+    "sample_size": 1024,
+    "filtered_size": 476,
+    "sigma": 1.238,
+    "solar_bz": 4.5953,
+    "solar_density": 16.336,
+    "solar_speed": 510.81,
+    "solar_temp": 173341.8,
+    "solar_score": 3.5517,
+    "sigma_combined": 3.552,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "FIND",
+    "word_ja": "発見",
+    "lotto": [
+      4,
+      5,
+      17,
+      21,
+      23,
+      33,
+      36
+    ]
   }
 ]
