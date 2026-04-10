@@ -942,5 +942,32 @@
       28,
       30
     ]
+  },
+  {
+    "date": "2026-04-10",
+    "filtered_mean": 119.3916,
+    "sample_size": 1024,
+    "filtered_size": 521,
+    "sigma": 3.004,
+    "solar_bz": -1.6595,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.8265,
+    "sigma_combined": 3.004,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "ROOT",
+    "word_ja": "原点",
+    "lotto": [
+      10,
+      13,
+      19,
+      25,
+      26,
+      30,
+      37
+    ]
   }
 ]
