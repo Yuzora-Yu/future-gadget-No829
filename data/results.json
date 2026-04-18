@@ -1158,5 +1158,32 @@
       30,
       37
     ]
+  },
+  {
+    "date": "2026-04-18",
+    "filtered_mean": 128.9588,
+    "sample_size": 1024,
+    "filtered_size": 510,
+    "sigma": 0.815,
+    "solar_bz": -4.9603,
+    "solar_density": 5.905,
+    "solar_speed": 422.77,
+    "solar_temp": 137175.4,
+    "solar_score": 2.8555,
+    "sigma_combined": 2.856,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "MARK",
+    "word_ja": "記録せよ",
+    "lotto": [
+      8,
+      10,
+      18,
+      21,
+      25,
+      29,
+      35
+    ]
   }
 ]
