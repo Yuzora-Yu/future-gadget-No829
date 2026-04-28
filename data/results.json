@@ -1428,5 +1428,32 @@
       31,
       34
     ]
+  },
+  {
+    "date": "2026-04-28",
+    "filtered_mean": 121.345,
+    "sample_size": 1024,
+    "filtered_size": 516,
+    "sigma": 2.279,
+    "solar_bz": 1.6157,
+    "solar_density": 3.503,
+    "solar_speed": 384.68,
+    "solar_temp": 53402.2,
+    "solar_score": 0.7017,
+    "sigma_combined": 2.279,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "CARRY",
+    "word_ja": "継続せよ",
+    "lotto": [
+      1,
+      4,
+      7,
+      13,
+      28,
+      35,
+      37
+    ]
   }
 ]
