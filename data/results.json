@@ -1617,5 +1617,32 @@
       35,
       37
     ]
+  },
+  {
+    "date": "2026-05-05",
+    "filtered_mean": 125.507,
+    "sample_size": 1024,
+    "filtered_size": 499,
+    "sigma": 0.655,
+    "solar_bz": -2.733,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 2.5155,
+    "sigma_combined": 2.515,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "CYCLE",
+    "word_ja": "周期",
+    "lotto": [
+      5,
+      10,
+      12,
+      24,
+      26,
+      35,
+      36
+    ]
   }
 ]
