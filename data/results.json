@@ -1914,5 +1914,32 @@
       33,
       36
     ]
+  },
+  {
+    "date": "2026-05-16",
+    "filtered_mean": 126.1657,
+    "sample_size": 1024,
+    "filtered_size": 513,
+    "sigma": 0.236,
+    "solar_bz": -0.2022,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 1.464,
+    "sigma_combined": 1.464,
+    "anomaly": false,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "",
+    "word_ja": "",
+    "lotto": [
+      5,
+      15,
+      16,
+      18,
+      27,
+      28,
+      33
+    ]
   }
 ]
