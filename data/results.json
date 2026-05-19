@@ -1995,5 +1995,32 @@
       22,
       26
     ]
+  },
+  {
+    "date": "2026-05-19",
+    "filtered_mean": 124.1257,
+    "sample_size": 1024,
+    "filtered_size": 501,
+    "sigma": 1.097,
+    "solar_bz": -3.1263,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 2.958,
+    "sigma_combined": 2.958,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "RISE",
+    "word_ja": "上昇せよ",
+    "lotto": [
+      2,
+      11,
+      20,
+      24,
+      26,
+      34,
+      35
+    ]
   }
 ]
