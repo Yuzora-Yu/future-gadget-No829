@@ -2076,5 +2076,32 @@
       25,
       36
     ]
+  },
+  {
+    "date": "2026-05-22",
+    "filtered_mean": 126.6166,
+    "sample_size": 1024,
+    "filtered_size": 506,
+    "sigma": 0.262,
+    "solar_bz": -2.5868,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 2.5845,
+    "sigma_combined": 2.584,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "FOLD",
+    "word_ja": "収束",
+    "lotto": [
+      1,
+      2,
+      8,
+      22,
+      32,
+      33,
+      35
+    ]
   }
 ]
