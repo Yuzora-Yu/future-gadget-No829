@@ -2130,5 +2130,32 @@
       28,
       34
     ]
+  },
+  {
+    "date": "2026-05-24",
+    "filtered_mean": 130.8175,
+    "sample_size": 1024,
+    "filtered_size": 515,
+    "sigma": 2.055,
+    "solar_bz": -0.1663,
+    "solar_density": 2.3008,
+    "solar_speed": 304.56,
+    "solar_temp": 34989.2,
+    "solar_score": 1.3407,
+    "sigma_combined": 2.055,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "SOON",
+    "word_ja": "間もなく",
+    "lotto": [
+      5,
+      11,
+      13,
+      21,
+      22,
+      24,
+      36
+    ]
   }
 ]
