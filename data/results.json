@@ -2454,5 +2454,32 @@
       35,
       37
     ]
+  },
+  {
+    "date": "2026-06-05",
+    "filtered_mean": 129.4767,
+    "sample_size": 1024,
+    "filtered_size": 514,
+    "sigma": 0.858,
+    "solar_bz": 9.6433,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 6.606,
+    "sigma_combined": 6.606,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "ALERT",
+    "word_ja": "警戒",
+    "lotto": [
+      3,
+      8,
+      11,
+      12,
+      17,
+      19,
+      36
+    ]
   }
 ]
