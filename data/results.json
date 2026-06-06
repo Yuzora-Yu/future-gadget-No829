@@ -2481,5 +2481,32 @@
       19,
       36
     ]
+  },
+  {
+    "date": "2026-06-06",
+    "filtered_mean": 130.5149,
+    "sample_size": 1024,
+    "filtered_size": 538,
+    "sigma": 1.21,
+    "solar_bz": -1.5335,
+    "solar_density": 1.4328,
+    "solar_speed": 584.36,
+    "solar_temp": 207385.1,
+    "solar_score": 2.8613,
+    "sigma_combined": 2.861,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "CLOSE",
+    "word_ja": "閉鎖",
+    "lotto": [
+      2,
+      9,
+      10,
+      17,
+      23,
+      24,
+      27
+    ]
   }
 ]
