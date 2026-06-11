@@ -2616,5 +2616,32 @@
       27,
       35
     ]
+  },
+  {
+    "date": "2026-06-11",
+    "filtered_mean": 123.3257,
+    "sample_size": 1024,
+    "filtered_size": 525,
+    "sigma": 1.999,
+    "solar_bz": -4.3153,
+    "solar_density": 15.5687,
+    "solar_speed": 390.31,
+    "solar_temp": 51369.7,
+    "solar_score": 3.353,
+    "sigma_combined": 3.353,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "SEEK",
+    "word_ja": "探索せよ",
+    "lotto": [
+      3,
+      15,
+      17,
+      21,
+      22,
+      26,
+      35
+    ]
   }
 ]
