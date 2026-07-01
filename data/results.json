@@ -3156,5 +3156,32 @@
       30,
       32
     ]
+  },
+  {
+    "date": "2026-07-01",
+    "filtered_mean": 124.7869,
+    "sample_size": 1024,
+    "filtered_size": 535,
+    "sigma": 2.216,
+    "solar_bz": 3.4727,
+    "solar_density": 12.3175,
+    "solar_speed": 427.85,
+    "solar_temp": 54457.2,
+    "solar_score": 1.073,
+    "sigma_combined": 2.216,
+    "anomaly": true,
+    "sources": 4,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "HOLD",
+    "word_ja": "保留",
+    "lotto": [
+      2,
+      11,
+      19,
+      22,
+      25,
+      31,
+      37
+    ]
   }
 ]
