@@ -3237,5 +3237,32 @@
       25,
       37
     ]
+  },
+  {
+    "date": "2026-07-04",
+    "filtered_mean": 133.602,
+    "sample_size": 1024,
+    "filtered_size": 510,
+    "sigma": 2.192,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.192,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "LISTEN",
+    "word_ja": "受信中",
+    "lotto": [
+      8,
+      9,
+      11,
+      26,
+      27,
+      28,
+      33
+    ]
   }
 ]
