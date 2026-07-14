@@ -3507,5 +3507,32 @@
       27,
       32
     ]
+  },
+  {
+    "date": "2026-07-14",
+    "filtered_mean": 120.6073,
+    "sample_size": 1024,
+    "filtered_size": 522,
+    "sigma": 2.065,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.065,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "SOON",
+    "word_ja": "間もなく",
+    "lotto": [
+      3,
+      9,
+      14,
+      20,
+      21,
+      24,
+      29
+    ]
   }
 ]
