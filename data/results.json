@@ -3777,5 +3777,32 @@
       28,
       30
     ]
+  },
+  {
+    "date": "2026-07-24",
+    "filtered_mean": 134.0392,
+    "sample_size": 1024,
+    "filtered_size": 536,
+    "sigma": 2.506,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.506,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "LIGHT",
+    "word_ja": "光",
+    "lotto": [
+      5,
+      8,
+      9,
+      11,
+      16,
+      27,
+      33
+    ]
   }
 ]
