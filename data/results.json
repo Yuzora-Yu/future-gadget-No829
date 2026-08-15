@@ -4371,5 +4371,32 @@
       27,
       32
     ]
+  },
+  {
+    "date": "2026-08-15",
+    "filtered_mean": 121.6744,
+    "sample_size": 1024,
+    "filtered_size": 519,
+    "sigma": 3.879,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 3.879,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "EAST",
+    "word_ja": "東",
+    "lotto": [
+      14,
+      16,
+      18,
+      25,
+      28,
+      32,
+      36
+    ]
   }
 ]
