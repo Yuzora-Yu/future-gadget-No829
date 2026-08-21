@@ -4533,5 +4533,32 @@
       33,
       34
     ]
+  },
+  {
+    "date": "2026-08-21",
+    "filtered_mean": 123.6142,
+    "sample_size": 1024,
+    "filtered_size": 534,
+    "sigma": 1.348,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 1.348,
+    "anomaly": false,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "",
+    "word_ja": "",
+    "lotto": [
+      4,
+      5,
+      14,
+      20,
+      28,
+      29,
+      35
+    ]
   }
 ]
