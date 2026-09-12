@@ -5127,5 +5127,32 @@
       31,
       37
     ]
+  },
+  {
+    "date": "2026-09-12",
+    "filtered_mean": 123.4213,
+    "sample_size": 1024,
+    "filtered_size": 508,
+    "sigma": 2.004,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.004,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "WEST",
+    "word_ja": "西",
+    "lotto": [
+      4,
+      7,
+      8,
+      12,
+      19,
+      26,
+      36
+    ]
   }
 ]
