@@ -5289,5 +5289,32 @@
       29,
       34
     ]
+  },
+  {
+    "date": "2026-09-18",
+    "filtered_mean": 132.6614,
+    "sample_size": 1024,
+    "filtered_size": 502,
+    "sigma": 2.128,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.128,
+    "anomaly": true,
+    "sources": 3,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "ECHO",
+    "word_ja": "残響",
+    "lotto": [
+      8,
+      11,
+      18,
+      20,
+      22,
+      24,
+      27
+    ]
   }
 ]
