@@ -6315,5 +6315,32 @@
       27,
       29
     ]
+  },
+  {
+    "date": "2026-10-26",
+    "filtered_mean": 124.437,
+    "sample_size": 512,
+    "filtered_size": 254,
+    "sigma": 2.455,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.455,
+    "anomaly": true,
+    "sources": 2,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "READY",
+    "word_ja": "準備完了",
+    "lotto": [
+      2,
+      9,
+      10,
+      13,
+      29,
+      32,
+      33
+    ]
   }
 ]
