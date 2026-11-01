@@ -6477,5 +6477,32 @@
       30,
       32
     ]
+  },
+  {
+    "date": "2026-11-01",
+    "filtered_mean": 135.8321,
+    "sample_size": 512,
+    "filtered_size": 262,
+    "sigma": 3.303,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 3.303,
+    "anomaly": true,
+    "sources": 2,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "STILL",
+    "word_ja": "静止",
+    "lotto": [
+      1,
+      9,
+      20,
+      24,
+      27,
+      29,
+      34
+    ]
   }
 ]
