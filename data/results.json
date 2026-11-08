@@ -6666,5 +6666,32 @@
       35,
       36
     ]
+  },
+  {
+    "date": "2026-11-08",
+    "filtered_mean": 136.5992,
+    "sample_size": 512,
+    "filtered_size": 262,
+    "sigma": 2.87,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 2.87,
+    "anomaly": true,
+    "sources": 2,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "NORTH",
+    "word_ja": "北",
+    "lotto": [
+      3,
+      5,
+      6,
+      15,
+      27,
+      28,
+      32
+    ]
   }
 ]
