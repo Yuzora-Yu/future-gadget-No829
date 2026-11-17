@@ -6909,5 +6909,32 @@
       26,
       37
     ]
+  },
+  {
+    "date": "2026-11-17",
+    "filtered_mean": 123.5019,
+    "sample_size": 512,
+    "filtered_size": 261,
+    "sigma": 1.085,
+    "solar_bz": null,
+    "solar_density": null,
+    "solar_speed": null,
+    "solar_temp": null,
+    "solar_score": 0.0,
+    "sigma_combined": 1.085,
+    "anomaly": false,
+    "sources": 2,
+    "btc_hash_prefix": "0000000000000000...",
+    "word": "",
+    "word_ja": "",
+    "lotto": [
+      14,
+      20,
+      21,
+      26,
+      29,
+      31,
+      34
+    ]
   }
 ]
